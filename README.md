@@ -75,4 +75,4 @@ nothify-skill/
 
 ## License
 
-MIT. Built by [Abhi Varde](https://abhivarde.in).
+[MIT License](https://choosealicense.com/licenses/mit/). Built by [Abhi Varde](https://abhivarde.in).

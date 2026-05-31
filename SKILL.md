@@ -1,13 +1,11 @@
 ---
 name: nothify-404
-description: Generate a production-ready custom 404 page for any Next.js project. Auto-detects App Router vs Pages Router, TypeScript vs JavaScript, and CSS framework (Tailwind, MUI, styled-components, emotion, Bootstrap, CSS Modules, styled-jsx, plain CSS). Supports monorepos (Turborepo, Nx, pnpm workspaces). Offers 6 design templates — retro, illustrated, elegant, centered, minimal, simple — each in light and dark variants. Optionally generates a matching error page. Live web version at nothify.abhivarde.in.
+description: Generate a production-ready custom 404 page for any Next.js project. Auto-detects App Router vs Pages Router, TypeScript vs JavaScript, and CSS framework (Tailwind, MUI, styled-components, emotion, Bootstrap, CSS Modules, styled-jsx, plain CSS). Supports monorepos (Turborepo, Nx, pnpm workspaces). Offers 6 design templates (retro, illustrated, elegant, centered, minimal, simple) in light and dark variants. Optionally generates a matching error page. Live web version at nothify.abhivarde.in.
 ---
 
 # Nothify — Custom 404 Page Generator
 
-Generate a pixel-perfect, production-ready 404 page that matches a Next.js project's exact configuration. No guessing. Read the project files, detect the stack, adapt the chosen template, and write the file to the correct path.
-
----
+Generate a pixel-perfect, production-ready 404 page that matches a Next.js project's exact configuration. Read the project files, detect the stack, ask the user for their preferences, adapt the chosen template, and write the file to the correct path.
 
 ## Trigger Conditions
 
@@ -16,9 +14,7 @@ Use this skill when the user asks to:
 - Add a custom 404 page to a Next.js project
 - Create `not-found.tsx`, `not-found.jsx`, `404.tsx`, or `404.jsx`
 - Replace or overwrite an existing 404 page
-- Optionally generate a matching `error.tsx` or `_error.tsx`
-
----
+- Generate a matching `error.tsx` or `_error.tsx`
 
 ## Step 1 — Detect Project Configuration
 
@@ -26,10 +22,8 @@ Read the actual project files. Never guess or assume defaults.
 
 ### 1a. Router Type
 
-Check directory structure:
-
-- `app/` or `src/app/` exists → **App Router** → target: `app/not-found.{ext}`
-- `pages/` or `src/pages/` exists → **Pages Router** → target: `pages/404.{ext}`
+- `app/` or `src/app/` directory exists → App Router → target file: `app/not-found.{ext}`
+- `pages/` or `src/pages/` directory exists → Pages Router → target file: `pages/404.{ext}`
 - Both exist → prefer App Router
 
 ### 1b. Language
@@ -38,8 +32,8 @@ Check in this exact order:
 
 1. `tsconfig.json` exists → TypeScript
 2. Any `.ts`, `.tsx`, or `.mts` file exists in the project → TypeScript
-3. `package.json` contains `"typescript"` in `dependencies` or `devDependencies` → TypeScript
-4. None of the above → JavaScript
+3. `package.json` has `"typescript"` in `dependencies` or `devDependencies` → TypeScript
+4. None matched → JavaScript
 
 ### 1c. File Extension
 
@@ -52,40 +46,41 @@ Check in this exact order:
 
 Read `dependencies` and `devDependencies` from `package.json`. Check in this exact priority order:
 
-1. `@mui/material` or `@material-ui/core` present → **mui**
-2. `tailwindcss` present → **tailwind**
-3. `styled-components` present → **styled-components**
-4. `@emotion/react` present (without `@mui/material`) → **emotion**
-5. `bootstrap` present → **bootstrap**
-6. Any `.module.css` file exists anywhere in the project → **css-modules**
+1. `@mui/material` or `@material-ui/core` → **mui**
+2. `tailwindcss` → **tailwind**
+3. `styled-components` → **styled-components**
+4. `@emotion/react` (without `@mui/material`) → **emotion**
+5. `bootstrap` → **bootstrap**
+6. Any `.module.css` file in the project → **css-modules**
 7. `styled-jsx` in dependencies → **styled-jsx**
 8. None matched → **css** (plain inline styles)
 
 ### 1e. Monorepo Detection
 
-Check if the root `package.json` has `"next"` in its dependencies. If it does not:
+If the root `package.json` does not have `"next"` in its dependencies:
 
 1. Scan subdirectories for `next.config.js`, `next.config.ts`, `next.config.mjs`, or `next.config.cjs`
 2. Each directory containing one of these files is a Next.js app
-3. Ask the user which sub-app to target if multiple are found
-4. Use that sub-app's own `package.json` for all detection (language, CSS framework)
+3. If multiple are found, ask the user which sub-app to target
+4. Use that sub-app's own `package.json` for language and CSS framework detection
 5. Prefix all output paths with the sub-app path (e.g., `apps/web/app/not-found.tsx`)
 
 ### 1f. Existing 404 Check
 
 Before generating anything, check if a 404 file already exists:
 
-**App Router:** look for `app/not-found.{js,jsx,ts,tsx}` or `src/app/not-found.{js,jsx,ts,tsx}`
+- App Router: `app/not-found.{js,jsx,ts,tsx}` or `src/app/not-found.{js,jsx,ts,tsx}`
+- Pages Router: `pages/404.{js,jsx,ts,tsx}` or `src/pages/404.{js,jsx,ts,tsx}`
 
-**Pages Router:** look for `pages/404.{js,jsx,ts,tsx}` or `src/pages/404.{js,jsx,ts,tsx}`
+If found, tell the user and ask before overwriting.
 
-If found, inform the user and ask before overwriting.
+## Step 2 — Ask for Template, Theme, and Error Page
 
----
+Ask the user three questions before generating anything. Keep it conversational and ask all three at once.
 
-## Step 2 — Choose Template and Theme
+### Template
 
-Ask the user to select one of the 6 templates:
+Ask the user to pick one of these 6 templates:
 
 | Template      | Style                                                   |
 | ------------- | ------------------------------------------------------- |
@@ -96,9 +91,19 @@ Ask the user to select one of the 6 templates:
 | `minimal`     | Clean design with generous whitespace                   |
 | `simple`      | Ultra-minimal, text only, maximum clarity               |
 
-Then ask for theme: **light** or **dark**.
+### Theme
 
----
+Ask the user which of these three options they prefer:
+
+1. **Match project theme** — detect the project's existing color scheme and adapt the template to use those exact colors and tokens
+2. **Dark** — hardcode dark backgrounds with light text
+3. **Light** — hardcode light backgrounds with dark text
+
+If the user picks option 1, follow the project theme detection rules in Step 4.
+
+### Error Page
+
+Ask if they also want a matching `error.tsx` or `_error.tsx` generated alongside the 404 page.
 
 ## Step 3 — Read the Template File
 
@@ -112,8 +117,6 @@ Read the corresponding file from the `templates/` directory in this repository:
 - `templates/simple.jsx`
 
 This file is the source of truth for layout, spacing, visual structure, and all text content. Do not deviate from it.
-
----
 
 ## Step 4 — Generate the Component
 
@@ -166,7 +169,7 @@ Use `@mui/material` components (`Box`, `Typography`, `Button`, `Container`). App
 Dark theme hex reference:
 
 - Page background: `#0a0a0a`
-- Terminal/card body: `#030712`
+- Terminal or card body: `#030712`
 - Titlebar and footer: `#111111`
 - Border: `#262626`
 - Green text: `#4ade80`
@@ -177,7 +180,7 @@ Dark theme hex reference:
 Light theme hex reference:
 
 - Page background: `#f5f5f5`
-- Terminal/card body: `#ffffff`
+- Terminal or card body: `#ffffff`
 - Titlebar and footer: `#e5e5e5`
 - Border: `#d4d4d4`
 - Green text: `#15803d`
@@ -206,19 +209,30 @@ Use Next.js `<style jsx>` inline tags. Keep all component structure intact. Writ
 
 #### css (plain)
 
-Convert every Tailwind class to an inline `style` prop object. Every styled element receives explicit `style={{ ... }}` with the equivalent CSS properties and values.
+Convert every Tailwind class to an inline `style` prop object. Every styled element receives an explicit `style={{ ... }}` with the equivalent CSS properties and values.
 
 ### Theme Adaptation
+
+#### Option 1 — Match project theme
+
+Scan the project for an existing theme system:
+
+- **Tailwind:** read `tailwind.config.js` or `tailwind.config.ts` and use the `theme.colors` or `theme.extend.colors` values
+- **CSS variables:** look for `:root` declarations in `globals.css`, `app/globals.css`, or any global stylesheet and use those variable names (e.g., `var(--background)`, `var(--foreground)`)
+- **Theme provider:** if the project uses `next-themes`, shadcn/ui, or a custom `ThemeProvider`, use CSS variables already defined in the project rather than hardcoding any color
+- **MUI theme:** if a custom MUI theme is defined in a `theme.ts` or `theme.js` file, import and use it via `ThemeProvider`
+
+When matching the project theme, the component should use the project's own color tokens wherever possible. Do not hardcode any hex value that conflicts with an existing token.
+
+#### Option 2 or 3 — Dark or light
 
 Hardcode all styles for the chosen theme. The component must accept no props.
 
 - Do not add a `theme` prop
 - Do not use `useState` for theme toggling
 - Do not add any conditional theme logic
-
-**dark:** dark backgrounds, light text, as shown in the template's dark variant
-
-**light:** light backgrounds, dark text, as shown in the template's light variant
+- **dark:** dark backgrounds, light text, as shown in the template's dark variant
+- **light:** light backgrounds, dark text, as shown in the template's light variant
 
 ### Non-Negotiable Rules
 
@@ -229,11 +243,7 @@ Hardcode all styles for the chosen theme. The component must accept no props.
 5. Output only the component code — no comments, no explanations, no markdown fences
 6. Do not simplify, restructure, or improve the template layout
 
----
-
 ## Step 5 — Write the File
-
-Determine the correct output path based on router, language, and project structure:
 
 ### Standard project
 
@@ -244,7 +254,7 @@ Determine the correct output path based on router, language, and project structu
 | Pages Router | TypeScript | `pages/404.tsx`     |
 | Pages Router | JavaScript | `pages/404.jsx`     |
 
-If the project uses a `src/` prefix, apply it:
+If the project uses a `src/` prefix:
 
 ```
 src/app/not-found.tsx
@@ -262,17 +272,15 @@ packages/frontend/pages/404.jsx
 
 Write the file. If a file already existed and the user confirmed the overwrite, replace it entirely.
 
----
-
 ## Step 6 (Optional) — Generate a Matching Error Page
 
-If the user also wants an error page, generate it using the same template style, theme, and CSS framework.
+If the user confirmed they want an error page, generate it using the same template style, theme, and CSS framework.
 
 ### App Router (`app/error.{ext}`)
 
 Must include the `"use client"` directive at the top.
 
-TypeScript signature:
+TypeScript:
 
 ```tsx
 "use client"
@@ -286,7 +294,7 @@ export default function Error({
 }) { ... }
 ```
 
-JavaScript signature:
+JavaScript:
 
 ```jsx
 "use client"

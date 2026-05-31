@@ -4,11 +4,9 @@ An agent skill for generating production-ready custom 404 pages in any Next.js p
 
 Install this skill into your AI coding agent and it will automatically detect your project's router, language, and CSS framework, then generate a pixel-perfect 404 page in the correct file at the correct path. No configuration required.
 
-Live web version available at [nothify.abhivarde.in](https://nothify.abhivarde.in).
+Live web version at [nothify.abhivarde.in](https://nothify.abhivarde.in).
 
 [![skills.sh](https://skills.sh/b/AbhiVarde/nothify-skill)](https://skills.sh/AbhiVarde/nothify-skill)
-
----
 
 ## Install
 
@@ -17,8 +15,6 @@ npx skills add AbhiVarde/nothify-skill
 ```
 
 Works with Claude Code, Cursor, Codex, GitHub Copilot, Windsurf, and [50+ other agents](https://skills.sh/agent).
-
----
 
 ## What It Does
 
@@ -30,8 +26,6 @@ Once installed, ask your agent to add a 404 page to any Next.js project. The ski
 - Supports monorepos with multiple Next.js apps
 - Asks before overwriting an existing 404 page
 - Writes the file to the correct path
-
----
 
 ## Templates
 
@@ -48,8 +42,6 @@ Six professionally designed templates, each available in light and dark variants
 
 Preview all templates at [nothify.abhivarde.in](https://nothify.abhivarde.in).
 
----
-
 ## CSS Framework Support
 
 The skill adapts output to match your project's styling approach with no extra steps.
@@ -65,8 +57,6 @@ The skill adapts output to match your project's styling approach with no extra s
 | styled-jsx        | Yes       |
 | Plain CSS         | Yes       |
 
----
-
 ## Next.js Support
 
 | Feature                                    | Supported |
@@ -78,8 +68,6 @@ The skill adapts output to match your project's styling approach with no extra s
 | Monorepos (Turborepo, Nx, pnpm workspaces) | Yes       |
 | `src/` directory structure                 | Yes       |
 | Optional `error.tsx` generation            | Yes       |
-
----
 
 ## Usage
 
@@ -99,15 +87,11 @@ Create a 404 page and a matching error page, minimal template, light theme
 
 The agent reads your project files, detects the stack, adapts the template, and writes the file.
 
----
-
 ## Web Version
 
-Prefer a no-code workflow? Use the web app directly at [nothify.abhivarde.in](https://nothify.abhivarde.in).
+Prefer a no-code workflow? Use the web app at [nothify.abhivarde.in](https://nothify.abhivarde.in).
 
 The web version supports the same detection and generation pipeline, plus live code preview, direct GitHub PR creation, and automatic forking for repos you do not own.
-
----
 
 ## Repository Structure
 
@@ -122,8 +106,6 @@ nothify-skill/
     ├── minimal.jsx
     └── simple.jsx
 ```
-
----
 
 ## License
 

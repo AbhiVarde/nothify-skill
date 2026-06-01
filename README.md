@@ -4,7 +4,7 @@ Agent skill for generating production-ready custom 404 pages in any Next.js proj
 
 Detects your router, language, and CSS framework automatically. Writes the file to the correct path. No configuration required. Live web version at [nothify.abhivarde.in](https://nothify.abhivarde.in).
 
-[![skills.sh](https://skills.sh/b/vercel-labs/skills)](https://skills.sh/AbhiVarde/nothify-skill)
+[![skills.sh](https://skills.sh/b/Abhivarde/nothify-skill)](https://skills.sh/Abhivarde/nothify-skill)
 
 ## Install
 
